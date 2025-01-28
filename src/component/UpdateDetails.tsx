@@ -1,25 +1,14 @@
 import { FormEvent, useContext, useState } from "react"
 import { Box, Button, Modal, TextField, Typography } from "@mui/material"
-import { UsrReducer } from "./Header";
 import axios, { AxiosError } from "axios"
 import { UserType } from "../types/userType";
+import { style } from "../types/styleModle";
+import { User } from "../App";
 
 const updateDetails = () => {
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-    }
 
     const url = "http://localhost:3000"
-    const userContext = useContext(UsrReducer)
-    console.log(userContext.user);
+    const userContext = useContext(User)
 
     const [user, setUser] = useState<UserType>(userContext.user)
     const [open, setOpen] = useState(false)
@@ -35,7 +24,6 @@ const updateDetails = () => {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        console.log("updat id", userContext.user.id,user);
         try {
             const res = await axios.put(`${url}/api/user`,
                 {
@@ -47,7 +35,6 @@ const updateDetails = () => {
                     }
                 }
             )
-            console.log("update res,",res.data);
             
             userContext.userDispatch(
                 {

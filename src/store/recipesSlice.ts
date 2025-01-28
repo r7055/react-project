@@ -1,18 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { Recipe } from "../types/recipeType";
 
-type Recipe = {
-    id: number,
-    title: string,
-    desc: string
-
-}
 const url = 'http://localhost:3000/api/recipes'
 
 export const fetchData = createAsyncThunk('recipes/fetch',
     async (_, thunkAPI) => {
         try {
-            console.log('in async thunk');
             const response = await axios.get(url)
             return response.data
         }
@@ -22,29 +16,21 @@ export const fetchData = createAsyncThunk('recipes/fetch',
     }
 )
 
-// export const addRecipe = createAsyncThunk('recipes/add',
-//     async (recipe:Recipe, thunkAPI) => {
-//         try {
-//             console.log('in async thunk');
-//             const response = await axios.get(url)
-//             return response.data
-//         }
-//         catch (e:any) {
-//             return thunkAPI.rejectWithValue(e.message)
-//         }
-//     }
-// )
 export const addRecipe = createAsyncThunk('recipes/add',
     async (recipe: Recipe, thunkAPI) => {
         try {
-            console.log('add in async thunk');
-            const response = await axios.post(url, {
+            const response = await axios.post(url, 
+            {
                 title: recipe.title,
-                description: recipe.desc
+                description: recipe.description,
+                ingredients: recipe.ingredients,
+                instructions: recipe.instructions
+            },{
+                headers: {
+                    "user-id": "" + recipe.authorId
+                }
             }
             )
-            console.log(response.data);
-
             return response.data.recipe
         }
         catch (e: any) {
@@ -61,16 +47,17 @@ const recipesSlice = createSlice({
         builder
             .addCase(fetchData.fulfilled,
                 (state, action) => {
-                    console.log('fulfilled');
-                    state.list = [...state.list, ...action.payload]
+                    alert('fulfilled')
+                    state.list = [ ...action.payload]
                 })
             .addCase(fetchData.rejected,
-                (state) => {
-                    console.log('failed');
+                () => {
+                    alert('failed')
                 }
             )
             .addCase(addRecipe.fulfilled,
                 (state, action) => {
+                    alert('add recipe')
                     console.log("add recipe");
 
                     state.list = [...state.list, {...action.payload}]
@@ -78,9 +65,9 @@ const recipesSlice = createSlice({
                 })
             .addCase(addRecipe.rejected,
                 () => {
+                    alert('The add was faild')
                     console.log("The add was faild");
                 })
     }
 });
-export const { add } = recipesSlice.actions;
 export default recipesSlice;

@@ -1,6 +1,6 @@
 import { Avatar } from '@mui/material';
 import { useContext } from "react";
-import { UsrReducer } from './Header';
+import { User } from '../App';
 
 
 const avatar = () => {
@@ -21,7 +21,7 @@ const avatar = () => {
 
         return color;
     }
-    const userContext = useContext(UsrReducer)
+    const userContext = useContext(User)
     const name = userContext.user.firstName ? userContext.user.firstName : ''
 
     return (<>

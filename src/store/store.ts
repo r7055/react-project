@@ -8,5 +8,5 @@ const store = configureStore({
 });
 
 export type StoreType = ReturnType<typeof store.getState>
-
+export type RecipeDispatch=typeof store.dispatch
 export default store
