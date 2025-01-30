@@ -8,14 +8,11 @@ import axios, { AxiosError } from "axios"
 import { style } from '../types/styleModle';
 import { IsLogin, User } from '../App';
 
-
 export default function Login() {
-  
     const email = useRef<HTMLInputElement>(null)
     const password = useRef<HTMLInputElement>(null)
     const [click, setClick] = useState("")
     const [open, setOpen] = useState(false);
-
     const userContext = useContext(User)
     const [, setLogin] = useContext(IsLogin)
 
@@ -64,27 +61,39 @@ export default function Login() {
 
     return (
         <>
-                <Button onClick={handleOpenSignIn} color='inherit'>SIGN IN</Button>
-                <Button onClick={handleOpenSignUp} color='inherit'>SIGN UP</Button>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={style}>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                            Enter your email and code
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            <form onSubmit={handleSubmit}>
-                                <div><TextField id="outlined-basic" inputRef={email} label="email" variant="outlined" type='email' /></div>
-                                <div><TextField id="outlined-basic" inputRef={password} label="password" variant="outlined" type='password' /></div>
-                                <div><Button type="submit">save</Button></div>
-                            </form>
-                        </Typography>
-                    </Box>
-                </Modal>
+            <Button onClick={handleOpenSignIn} color='inherit'>SIGN IN</Button>
+            <Button onClick={handleOpenSignUp} color='inherit'>SIGN UP</Button>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        Enter your email and code
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        <form onSubmit={handleSubmit}>
+                            <TextField
+                                id="outlined-basic"
+                                inputRef={email}
+                                label="email"
+                                variant="outlined"
+                                type='email'
+                            />
+                            <TextField
+                                id="outlined-basic"
+                                inputRef={password}
+                                label="password"
+                                variant="outlined"
+                                type='password'
+                            />
+                            <Button type="submit">save</Button>
+                        </form>
+                    </Typography>
+                </Box>
+            </Modal>
         </>
     )
 }

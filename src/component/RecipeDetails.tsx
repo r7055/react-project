@@ -99,7 +99,7 @@ import { Container, Typography, List, ListItem, Card, CardContent } from '@mui/m
 const RecipeDetails = () => {
     const { id } = useParams<{ id: string }>();
     const { recipes: { list: recipesList } } = useSelector((store: StoreType) => store);
-    const recipe = recipesList.find(r => r.id.toString() === id);
+    const recipe = recipesList.find(r => r?.id && r.id.toString() === id);
 
     if (!recipe) {
         return <Typography variant="h4"> The recipe is not found</Typography>;
@@ -113,7 +113,7 @@ const RecipeDetails = () => {
                     <Typography variant="body1" >{recipe.description}</Typography>
                     <Typography variant="h6">מרכיבים:</Typography>
                     <List>
-                        {recipe.ingredients.map((ingredient, index) => (
+                        {recipe.ingredients?.map((ingredient, index) => (
                             <ListItem key={index}>{ingredient}</ListItem>
                         ))}
                     </List>

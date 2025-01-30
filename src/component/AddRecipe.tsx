@@ -20,7 +20,7 @@ const AddRecipe = () => {
     const handleClose = () => { setOpen(false); }
     const handleOpen = () => { setOpen(true); }
 
-    const schema = object().shape({
+    const schema = object<Recipe>().shape({
         title: string().required("Title is required").min(3, "Title must be at least 3 characters"),
         description: string().required("Description is required").min(5, "Description must be at least 5 characters"),
         ingredients: array().of(string().required("Ingredient is required")),

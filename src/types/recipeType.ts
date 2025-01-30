@@ -1,11 +1,11 @@
 
 export type Recipe = {
-    id: number,
+    id?: number,
     title: string,
     description: string,
-    ingredients:string[],
+    ingredients?:string[],
     instructions: string,
-    authorId:number
+    authorId?:number
 }
 export  const emptyRecipe = {
     id: 0,
