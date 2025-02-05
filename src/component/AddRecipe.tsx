@@ -19,13 +19,6 @@ const AddRecipe = () => {
     const [open, setOpen] = useState(false);
     const handleClose = () => { setOpen(false); }
     const handleOpen = () => { setOpen(true); }
-
-    // const schema = object<Recipe>().shape({
-    //     title: string().required("Title is required").min(3, "Title must be at least 3 characters"),
-    //     description: string().required("Description is required").min(5, "Description must be at least 5 characters"),
-    //     ingredients: array().of(string().required("Ingredient is required")),
-    //     instructions: string().required("Instructions are required").min(5, "Instructions must be at least 5 characters"),
-    // });
    
     const schema = object<Recipe>().shape({
         title: string().required("Title is required").min(3, "Title must be at least 3 characters"),
@@ -42,13 +35,14 @@ const AddRecipe = () => {
     
     
 
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm<Recipe>({
+    const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm<Recipe>({
         resolver: yupResolver(schema),
     });
 
     const onSubmit: SubmitHandler<Recipe> = (recipe) => {
         setValue("authorId",Number(user.user.id))
         dispatch(addRecipe(recipe));
+        reset();
         handleClose();
     };
 
