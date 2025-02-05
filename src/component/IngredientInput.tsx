@@ -1,5 +1,5 @@
 import { TextField } from '@mui/material';
-import { FC, useState,KeyboardEvent } from 'react';
+import { FC, useState, KeyboardEvent } from 'react';
 
 const IngredientInput: FC<{ onIngredientsChange: (ingredients: string[]) => void }> = ({ onIngredientsChange }) => {
     const [ingredients, setIngredients] = useState<string[]>(['']);
@@ -22,9 +22,11 @@ const IngredientInput: FC<{ onIngredientsChange: (ingredients: string[]) => void
     };
 
     const handleRemoveIngredient = (index: number) => {
-        const newIngredients = ingredients.filter((_, i) => i !== index);
-        setIngredients(newIngredients);
-        onIngredientsChange(newIngredients);
+
+            const newIngredients = ingredients.filter((_, i) => i !== index);
+            setIngredients(newIngredients);
+            onIngredientsChange(newIngredients);
+        
     };
 
     return (
@@ -38,10 +40,10 @@ const IngredientInput: FC<{ onIngredientsChange: (ingredients: string[]) => void
                         margin="normal"
                         value={ingredient}
                         onChange={(e) => handleInputChange(index, e.target.value)}
-                        onKeyDown={(e:KeyboardEvent<HTMLInputElement>) => handleKeyDown(index, e)}
+                        onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => handleKeyDown(index, e)}
                         placeholder="ingredient"
                     />
-                    <button onClick={() => handleRemoveIngredient(index)}>✖</button>
+                    {index > 0 && <button onClick={() => handleRemoveIngredient(index)}>❌</button>}
                 </div>
             ))}
         </div>

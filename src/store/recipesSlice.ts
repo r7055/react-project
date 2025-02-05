@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Recipe } from "../types/recipeType";
+import Swal from "sweetalert2";
 
 const url = 'http://localhost:3000/api/recipes'
 
@@ -47,26 +48,33 @@ const recipesSlice = createSlice({
         builder
             .addCase(fetchData.fulfilled,
                 (state, action) => {
-                    alert('fulfilled')
                     state.list = [ ...action.payload]
                 })
             .addCase(fetchData.rejected,
                 () => {
-                    alert('failed')
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Couldn't get the recipes",
+                      });
                 }
             )
             .addCase(addRecipe.fulfilled,
                 (state, action) => {
-                    alert('add recipe')
-                    console.log("add recipe");
-
                     state.list = [...state.list, {...action.payload}]
-
+                    Swal.fire({
+                        title: "The recipe was successfully added",
+                        text: "The recipe "+action.payload.title+" was successfully added",
+                        icon: "success"
+                      });
                 })
             .addCase(addRecipe.rejected,
                 () => {
-                    alert('The add was faild')
-                    console.log("The add was faild");
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "The recipe wasnt successfully added",
+                      });
                 })
     }
 });

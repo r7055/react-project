@@ -20,12 +20,27 @@ const AddRecipe = () => {
     const handleClose = () => { setOpen(false); }
     const handleOpen = () => { setOpen(true); }
 
+    // const schema = object<Recipe>().shape({
+    //     title: string().required("Title is required").min(3, "Title must be at least 3 characters"),
+    //     description: string().required("Description is required").min(5, "Description must be at least 5 characters"),
+    //     ingredients: array().of(string().required("Ingredient is required")),
+    //     instructions: string().required("Instructions are required").min(5, "Instructions must be at least 5 characters"),
+    // });
+   
     const schema = object<Recipe>().shape({
         title: string().required("Title is required").min(3, "Title must be at least 3 characters"),
         description: string().required("Description is required").min(5, "Description must be at least 5 characters"),
-        ingredients: array().of(string().required("Ingredient is required")),
+        ingredients: array()
+            .of(string().required("Ingredient is required"))
+            .min(1, "At least one ingredient is required")
+            .test('first-item-length', 'The first ingredient must be at least 5 characters', 
+                function (ingredients) {
+                    return ingredients && ingredients[0] && ingredients[0].length >= 5 ? true : this.createError({ message: 'The first ingredient must be at least 5 characters' });
+                }),
         instructions: string().required("Instructions are required").min(5, "Instructions must be at least 5 characters"),
     });
+    
+    
 
     const { register, handleSubmit, setValue, formState: { errors } } = useForm<Recipe>({
         resolver: yupResolver(schema),
@@ -81,7 +96,7 @@ const AddRecipe = () => {
                             error={!!errors.instructions}
                             helperText={errors.instructions?.message}
                         />
-                        <Button type="submit">Add</Button>
+                        <div><Button type="submit">Add</Button></div>
                     </form>
                 </Box>
             </Modal>

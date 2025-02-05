@@ -18,10 +18,8 @@ const [isLogin,]=useContext(IsLogin)
                 <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Box>
                         {!isLogin && <Login />}
-                        {/* <div style={{ display: 'flex', justifyContent: 'space-between' }}> */}
                         {isLogin && <Avatar />}
                         {isLogin && <UpdateDetails />}
-                        {/* </div> */}
                     </Box>
                     <Box>
                         <Navbar />

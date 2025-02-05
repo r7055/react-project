@@ -48,14 +48,10 @@ const updateDetails = () => {
             else if (!e.response.ok)
                 throw new Error(e.response.status + " " + e.response.data.message);
         }
-
-
         handleClose()
     }
 
-
     return (<>
-
         <div>
             <Button onClick={handleOpen} color='inherit'>update</Button>
             <Modal
@@ -120,9 +116,7 @@ const updateDetails = () => {
                                 value={user.address}
                                 onChange={handleChange}
                             />
-                            <div>
-                                <Button type="submit">update</Button>
-                            </div>
+                            <div><Button type="submit">update</Button></div>
                         </form>
                     </Typography>
                 </Box>

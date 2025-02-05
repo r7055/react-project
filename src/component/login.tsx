@@ -7,6 +7,7 @@ import { FormEvent, useContext, useRef, useState } from 'react';
 import axios, { AxiosError } from "axios"
 import { style } from '../types/styleModle';
 import { IsLogin, User } from '../App';
+import Swal from 'sweetalert2';
 
 export default function Login() {
     const email = useRef<HTMLInputElement>(null)
@@ -17,14 +18,8 @@ export default function Login() {
     const [, setLogin] = useContext(IsLogin)
 
     const handleClose = () => { setOpen(false); }
-    const handleOpenSignIn = () => {
-        setClick("SIGN IN")
-        setOpen(true)
-    }
-    const handleOpenSignUp = () => {
-        setClick("SIGN UP")
-        setOpen(true)
-    }
+    const handleOpenSignIn = () => { setClick("SIGN IN"); setOpen(true)}
+    const handleOpenSignUp = () => {setClick("SIGN UP"); setOpen(true)}
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -54,8 +49,25 @@ export default function Login() {
         catch (e: AxiosError | any) {
             if (e.response?.status === 422)
                 alert(e.response.data.message)
-            else if (!e.response.ok)
-                throw new Error(e.response.status + " " + e.response.data.message);
+            else if (!e.response.ok) {
+                if (e.response.status == 400) {
+                    setOpen(false)
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "User aleady exist!",
+                        // footer: '<a href="#" onclick="handleOpenSignIn(true)">Do you want to login?</a>' 
+                    });
+                }
+                if (e.response.status == 401) {
+                    setOpen(false)
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "The password is worng",
+                    });
+                }
+            }
         }
     }
 
@@ -89,7 +101,7 @@ export default function Login() {
                                 variant="outlined"
                                 type='password'
                             />
-                            <Button type="submit">save</Button>
+                            <div> <Button type="submit">save</Button></div>
                         </form>
                     </Typography>
                 </Box>
